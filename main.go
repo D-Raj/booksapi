@@ -28,6 +28,7 @@ func server() {
 	myMux.HandleFunc("/books", handlers.AllBooks).Methods("GET")
 	myMux.HandleFunc("/books/{id}", handlers.GetBook).Methods("GET")
 	myMux.HandleFunc("/books/{id}", handlers.AddBook).Methods("POST")
+	myMux.HandleFunc("/books/{id}", handlers.DeleteBook).Methods("DELETE")
 
 	// bind my multiplexer (from gorilla to app)
 	http.Handle("/", myMux)
@@ -36,3 +37,10 @@ func server() {
 		log.Fatal("Server error: ", err)
 	}
 }
+
+// {
+// 	"id":"5",
+// 	"name": "Enchantment  the Art of changing  hearts",
+// 	"author": "Guy Kawasaki",
+// 	"publisher": "Not specified"
+// }

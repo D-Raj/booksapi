@@ -59,9 +59,24 @@ func AddBook(w http.ResponseWriter, r *http.Request) {
 	getBooks()
 	params := mux.Vars(r)
 	var book Book
-	_ = json.NewDecoder(r.Body).Decode(&book) //Ignore errors
+	_ = json.NewDecoder(r.Body).Decode(&book) //Decode body into a book struct and Ignore errors
 	book.ID = params["id"]
 	books = append(books, book)
 	json.NewEncoder(w).Encode(books)
-	books = nil
+	books = nil // empty the book variable
+}
+
+// DeleteBook deletes a single book. This action is not persistent. It returns a list of books excluding deleted book
+func DeleteBook(w http.ResponseWriter, r *http.Request) {
+	getBooks()
+	params := mux.Vars(r)
+	println(params["id"])
+	for i, item := range books {
+		if item.ID == params["id"] {
+			books = append(books[:i], books[i+1:]...)
+			break
+		}
+		json.NewEncoder(w).Encode(books)
+	}
+	books = nil // empty the book variable
 }
