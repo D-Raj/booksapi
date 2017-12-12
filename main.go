@@ -26,6 +26,7 @@ func server() {
 	})
 	// route that gets some of the books I have read
 	myMux.HandleFunc("/books", handlers.AllBooks).Methods("GET")
+	myMux.HandleFunc("/books/{id}", handlers.GetBook).Methods("GET")
 
 	// bind my multiplexer (from gorilla to app)
 	http.Handle("/", myMux)
