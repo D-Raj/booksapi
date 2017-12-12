@@ -14,6 +14,7 @@ func main() {
 }
 
 func server() {
+	// check for environment our service is running on
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "5000"
@@ -23,8 +24,10 @@ func server() {
 	myMux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		println("Hello World!")
 	})
+	// route that gets some of the books I have read
 	myMux.HandleFunc("/books", handlers.AllBooks).Methods("GET")
 
+	// bind my multiplexer (from gorilla to app)
 	http.Handle("/", myMux)
 	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
