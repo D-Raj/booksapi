@@ -51,4 +51,17 @@ func GetBook(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	json.NewEncoder(w).Encode(&Book{})
+	books = nil
+}
+
+// AddBook adds a single book to the list. This does not persist as we do not have a db
+func AddBook(w http.ResponseWriter, r *http.Request) {
+	getBooks()
+	params := mux.Vars(r)
+	var book Book
+	_ = json.NewDecoder(r.Body).Decode(&book) //Ignore errors
+	book.ID = params["id"]
+	books = append(books, book)
+	json.NewEncoder(w).Encode(books)
+	books = nil
 }
