@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/dharnnie/booksapi/types"
+	"github.com/dharnnie/booksapi/app/types"
 	"github.com/gorilla/mux"
 )
 
