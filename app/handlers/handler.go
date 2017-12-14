@@ -4,27 +4,19 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/dharnnie/booksapi/app/types"
 	"github.com/gorilla/mux"
 )
 
-// Structure of a single book
-type Book struct {
-	ID        string `json:"id,omitempty"`
-	Name      string `json:"name,omitempty"`
-	Author    string `json:"author,omitempty"`
-	Genre     string `json:"genre,omitempty"`
-	Publisher string `json:"publisher,omitempty"`
-}
-
 // Array of books
-var books []Book
+var books []types.Book
 
 // dummy function that simulates getting/initializing books from database
 func getBooks() {
-	gobook := Book{ID: "1", Name: "GoBook", Author: "Caleb Doxsey", Genre: "Programming", Publisher: "Not specified"}
-	elon := Book{ID: "2", Name: "Elon Musk | Tesla | SpaceX and the quest for a fantastic future", Author: "Ashley Vance", Genre: "Biography", Publisher: "Not specified"}
-	strengthInGod := Book{ID: "3", Name: "Finding strength in the word of God", Author: "Kenneth Hagin", Genre: "Spiritual", Publisher: "Not specified"}
-	java := Book{ID: "4", Name: "Java for Dummies", Author: "Barry Burd", Genre: "Programming", Publisher: "John Wiley and Sons"}
+	gobook := types.Book{ID: "1", Name: "GoBook", Author: "Caleb Doxsey", Genre: "Programming", Publisher: "Not specified"}
+	elon := types.Book{ID: "2", Name: "Elon Musk | Tesla | SpaceX and the quest for a fantastic future", Author: "Ashley Vance", Genre: "Biography", Publisher: "Not specified"}
+	strengthInGod := types.Book{ID: "3", Name: "Finding strength in the word of God", Author: "Kenneth Hagin", Genre: "Spiritual", Publisher: "Not specified"}
+	java := types.Book{ID: "4", Name: "Java for Dummies", Author: "Barry Burd", Genre: "Programming", Publisher: "John Wiley and Sons"}
 	// dump all the books in a single array
 	books = append(books, gobook, elon, strengthInGod, java)
 }
@@ -50,7 +42,7 @@ func GetBook(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	json.NewEncoder(w).Encode(&Book{})
+	json.NewEncoder(w).Encode(&types.Book{})
 	books = nil
 }
 
@@ -58,7 +50,7 @@ func GetBook(w http.ResponseWriter, r *http.Request) {
 func AddBook(w http.ResponseWriter, r *http.Request) {
 	getBooks()
 	params := mux.Vars(r)
-	var book Book
+	var book types.Book
 	_ = json.NewDecoder(r.Body).Decode(&book) //Decode body into a book struct and Ignore errors
 	book.ID = params["id"]
 	books = append(books, book)

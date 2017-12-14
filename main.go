@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/dharnnie/booksapi/handlers"
+	"github.com/dharnnie/booksapi/app/handlers"
 	"github.com/gorilla/mux"
 )
 
