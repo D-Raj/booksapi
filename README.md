@@ -9,6 +9,7 @@ cd booksapi
 go get ./... (to install dependencies)
 go run main.go
 
+<hr>
 localhost:5000 {GET} (Prints hello world in console)
 localhost:5000/books {GET}(Returns an Array if books)
 localhost:5000/books/{id} --- {GET}(Returns a single book by ID) ID could be from 1 - 4 [at this time]
