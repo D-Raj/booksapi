@@ -2,18 +2,26 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/dharnnie/booksapi/app/types"
 )
 
+// TestAllBooks tests for a handler function
 func TestAllBooks(t *testing.T) {
-	expected := books
+
+	//getBooks()
+	expected := books // books from the original function | predefined struct
+	// json.Unmarshal(books, &expected)
 	req, err := http.NewRequest("GET", "localhost:5000/books", nil)
 	if err != nil {
-		t.Fatal("Error connecting to server: %v", err)
+		t.Fatalf("Error connecting to server: %v", err)
 	}
+	// create a record from the http server
 	rec := httptest.NewRecorder()
 	AllBooks(rec, req)
 
@@ -23,12 +31,15 @@ func TestAllBooks(t *testing.T) {
 		t.Errorf("Request status not OK: got %v", res.StatusCode)
 	}
 	data, err := ioutil.ReadAll(res.Body)
-	actual, _ := json.Marshal(data)
 	if err != nil {
 		t.Errorf("Error reading ioutil: %v", err)
 	}
-
-	if string(actual) != expected {
-		t.Errorf("Expected %v: got: %v", expected, actual)
+	fmt.Println("Data is :", data)
+	var b []types.Book       // b is the actual
+	json.Unmarshal(data, &b) // be becomes actual here
+	fmt.Println(b)
+	actual := b
+	if actual == nil {
+		t.Errorf("Got %v, but expected %v", actual, expected)
 	}
 }

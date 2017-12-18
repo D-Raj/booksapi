@@ -23,6 +23,7 @@ func getBooks() {
 
 // AllBooks function that returns all books
 func AllBooks(w http.ResponseWriter, r *http.Request) {
+	books = nil
 	//get all books from magical database
 	getBooks()
 	// encode and return books
@@ -34,6 +35,7 @@ func AllBooks(w http.ResponseWriter, r *http.Request) {
 
 // GetBook gets a single book by Id
 func GetBook(w http.ResponseWriter, r *http.Request) {
+	books = nil
 	getBooks()
 	params := mux.Vars(r)
 	for _, item := range books {
@@ -48,6 +50,7 @@ func GetBook(w http.ResponseWriter, r *http.Request) {
 
 // AddBook adds a single book to the list. This does not persist as we do not have a db
 func AddBook(w http.ResponseWriter, r *http.Request) {
+	books = nil
 	getBooks()
 	params := mux.Vars(r)
 	var book types.Book
@@ -60,6 +63,7 @@ func AddBook(w http.ResponseWriter, r *http.Request) {
 
 // DeleteBook deletes a single book. This action is not persistent. It returns a list of books excluding deleted book
 func DeleteBook(w http.ResponseWriter, r *http.Request) {
+	books = nil
 	getBooks()
 	params := mux.Vars(r)
 	println(params["id"])
