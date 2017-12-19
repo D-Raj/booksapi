@@ -13,10 +13,7 @@ import (
 
 // TestAllBooks tests for a handler function
 func TestAllBooks(t *testing.T) {
-
-	//getBooks()
 	expected := books // books from the original function | predefined struct
-	// json.Unmarshal(books, &expected)
 	req, err := http.NewRequest("GET", "localhost:5000/books", nil)
 	if err != nil {
 		t.Fatalf("Error connecting to server: %v", err)
@@ -25,6 +22,7 @@ func TestAllBooks(t *testing.T) {
 	rec := httptest.NewRecorder()
 	AllBooks(rec, req)
 
+	// Use the record to get a response from the server
 	res := rec.Result()
 	res.Body.Close() // Not compulsory(because this is a test), but a great practice
 	if res.StatusCode != http.StatusOK {
@@ -34,9 +32,8 @@ func TestAllBooks(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error reading ioutil: %v", err)
 	}
-	fmt.Println("Data is :", data)
 	var b []types.Book       // b is the actual
-	json.Unmarshal(data, &b) // be becomes actual here
+	json.Unmarshal(data, &b) // we unmarshal the data from API into b
 	fmt.Println(b)
 	actual := b
 	if actual == nil {
