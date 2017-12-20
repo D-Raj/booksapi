@@ -8,3 +8,14 @@ type Book struct {
 	Genre     string `json:"genre,omitempty"`
 	Publisher string `json:"publisher,omitempty"`
 }
+
+// User : user login details is decoded into this struct
+type User struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+// JwtToken is holds token string that goes back to the client
+type JwtToken struct {
+	Token string `json:"token"`
+}

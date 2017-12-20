@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/dharnnie/booksapi/app/auth"
 	"github.com/dharnnie/booksapi/app/handlers"
 	"github.com/gorilla/mux"
 )
@@ -20,10 +21,8 @@ func server() {
 		port = "5000"
 	}
 	myMux := mux.NewRouter()
-	// This is the first route
-	myMux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		println("Hello World!")
-	})
+	// This is the first route, creates and returns token to client
+	myMux.HandleFunc("/", auth.CreateToken).Methods("POST")
 	// route that gets some of the books I have read
 	myMux.HandleFunc("/books", handlers.AllBooks).Methods("GET")
 	myMux.HandleFunc("/books/{id}", handlers.GetBook).Methods("GET")
