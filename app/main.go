@@ -29,7 +29,7 @@ func server() {
 	myMux.HandleFunc("/books/{id}", handlers.AddBook).Methods("POST")
 	myMux.HandleFunc("/books/{id}", handlers.DeleteBook).Methods("DELETE")
 
-	// bind my multiplexer (from gorilla to app)
+	// bind my multiplexer (from gorilla to standard http.Handle)
 	http.Handle("/", myMux)
 	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
