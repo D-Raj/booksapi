@@ -21,8 +21,8 @@ func getBooks() {
 	tagr := types.Book{ID: "6", Name: "Think and grow rich", Author: "Napoleon Hill", Genre: "Finance|Wealth|Inspiration", Publisher: "Not specified"}
 	wwla := types.Book{ID: "7", Name: "We will lead Africa", Author: "Gilpin-Jackson|Sarah|Judith", Genre: "Programming", Publisher: "John Wiley and Sons"}
 	// dump all the books in a single array
-	pro_react := types.Book{ID: "9", Name: "Pro React", Author: "Cassio De Soussa", Genre: "Programming", Publisher: "Apress"}
-	books = append(books, gobook, elon, strengthInGod, java, aod, tagr, wwla, pro_react)
+	proReact := types.Book{ID: "8", Name: "Pro React", Author: "Cassio De Soussa", Genre: "Programming", Publisher: "Apress"}
+	books = append(books, gobook, elon, strengthInGod, java, aod, tagr, wwla, proReact)
 }
 
 // AllBooks function that returns all books
