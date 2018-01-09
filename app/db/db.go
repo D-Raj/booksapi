@@ -13,9 +13,11 @@ func Books() []types.Book {
 	java := types.Book{ID: "4", Name: "Java for dummies", Author: "Barry Burd", Genre: "Programming", Publisher: "John Wiley and Sons"}
 	aod := types.Book{ID: "5", Name: "Acres of Diamond", Author: "Russell .H Conwell", Genre: "Inspiration", Publisher: "Not Specified"}
 	tagr := types.Book{ID: "6", Name: "Think and grow rich", Author: "Napoleon Hill", Genre: "Finance|Wealth|Inspiration", Publisher: "Not specified"}
-	wwla := types.Book{ID: "7", Name: "We will lead Africa", Author: "Gilpin-Jackson|Sarah|Judith", Genre: "Programming", Publisher: "John Wiley and Sons"}
+	wwla := types.Book{ID: "7", Name: "We will lead Africa", Author: "Gilpin-Jackson|Sarah|Judith", Genre: "Nation building", Publisher: "John Wiley and Sons"}
 	// dump all the books in a single array
 	proReact := types.Book{ID: "8", Name: "Pro React", Author: "Cassio De Soussa", Genre: "Programming", Publisher: "Apress"}
-	booklist = append(booklist, gobook, elon, strengthInGod, java, aod, tagr, wwla, proReact)
+	sww := types.Book{ID: "9", Name: "Start with Why", Author: "Simon Sinek", Genre: "Nation building", Publisher: "Nil"}
+	ydkjs := types.Book{ID: "10", Name: "You don't know JS", Author: "Kyle Simpson", Genre: "Programming", Publisher: "OReilly"}
+	booklist = append(booklist, gobook, elon, strengthInGod, java, aod, tagr, wwla, proReact, sww, ydkjs)
 	return booklist
 }
