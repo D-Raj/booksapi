@@ -4,21 +4,17 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/dharnnie/booksapi/app/db"
 	"github.com/dharnnie/booksapi/app/types"
 	"github.com/gorilla/mux"
 )
 
-// Array of books
+// Array of book
 var books []types.Book
 
 // dummy function that simulates getting/initializing books from database
 func getBooks() {
-	gobook := types.Book{ID: "1", Name: "GoBook", Author: "Caleb Doxsey", Genre: "Programming", Publisher: "Not specified"}
-	elon := types.Book{ID: "2", Name: "Elon Musk | Tesla | SpaceX and the quest for a fantastic future", Author: "Ashley Vance", Genre: "Biography", Publisher: "Not specified"}
-	strengthInGod := types.Book{ID: "3", Name: "Finding strength in the word of God", Author: "Kenneth Hagin", Genre: "Spiritual", Publisher: "Not specified"}
-	java := types.Book{ID: "4", Name: "Java for Dummies", Author: "Barry Burd", Genre: "Programming", Publisher: "John Wiley and Sons"}
-	// dump all the books in a single array
-	books = append(books, gobook, elon, strengthInGod, java)
+	books = db.Books()
 }
 
 // AllBooks function that returns all books
@@ -40,7 +36,7 @@ func GetBook(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	for _, item := range books {
 		if item.ID == params["id"] {
-			json.NewEncoder(w).Encode(item)
+			json.NewEncoder(w).Encode(item)	
 			return
 		}
 	}
@@ -61,7 +57,8 @@ func AddBook(w http.ResponseWriter, r *http.Request) {
 	books = nil // empty the book variable
 }
 
-// DeleteBook deletes a single book. This action is not persistent. It returns a list of books excluding deleted book
+// DeleteBook deletes a single book. This action is not persistent. It returns a list of books
+// excluding deleted book
 func DeleteBook(w http.ResponseWriter, r *http.Request) {
 	books = nil
 	getBooks()

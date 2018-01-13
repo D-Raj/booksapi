@@ -26,10 +26,10 @@ func server() {
 	// route that gets some of the books I have read
 	myMux.HandleFunc("/books", handlers.AllBooks).Methods("GET")
 	myMux.HandleFunc("/books/{id}", handlers.GetBook).Methods("GET")
-	myMux.HandleFunc("/books/{id}", handlers.AddBook).Methods("POST")
-	myMux.HandleFunc("/books/{id}", handlers.DeleteBook).Methods("DELETE")
+	myMux.HandleFunc("/books/{id}", auth.Authenticate(handlers.AddBook)).Methods("POST")
+	myMux.HandleFunc("/books/{id}", auth.Authenticate(handlers.DeleteBook)).Methods("DELETE")
 
-	// bind my multiplexer (from gorilla to app)
+	// bind my multiplexer (from gorilla to standard http.Handle)
 	http.Handle("/", myMux)
 	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
@@ -38,7 +38,7 @@ func server() {
 }
 
 // {
-// 	"id":"5",
+// 	"id":"9",
 // 	"name": "Enchantment  the Art of changing  hearts",
 // 	"author": "Guy Kawasaki",
 // 	"publisher": "Not specified"

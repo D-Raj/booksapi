@@ -34,9 +34,35 @@ func TestAllBooks(t *testing.T) {
 	}
 	var b []types.Book       // b is the actual
 	json.Unmarshal(data, &b) // we unmarshal the data from API into b
-	fmt.Println(b)
 	actual := b
 	if actual == nil {
 		t.Errorf("Got %v, but expected %v", actual, expected)
+	}
+}
+
+func TestGetBook(t *testing.T) {
+	expected := types.Book{ID: "1", Name: "GoBook", Author: "Caleb Doxsey", Genre: "Programming", Publisher: "Not specified"}
+	req, err := http.NewRequest("GET", "localhost:5000/books/1", nil)
+	if err != nil {
+		t.Errorf("Error connecting to server: %v", err)
+	}
+	rec := httptest.NewRecorder()
+	GetBook(rec, req)
+
+	res := rec.Result()
+	res.Body.Close()
+	fmt.Println("The res:", res)
+	if res.StatusCode != http.StatusOK {
+		t.Errorf("Response status is %v not %v:", res.StatusCode, http.StatusOK)
+	}
+	data, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		t.Errorf("Error reading response from server: %v", err)
+	}
+	var a types.Book
+	json.Unmarshal(data, &a)
+	actual := a
+	if actual != expected {
+		t.Errorf("Got %v: expected: %v", actual, expected)
 	}
 }

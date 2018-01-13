@@ -13,6 +13,7 @@ import (
 	"github.com/dharnnie/booksapi/app/types"
 )
 
+// I genereted this token before hand with the CreateToken function
 var token = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJwYXNzd29yZCI6IiIsInVzZXJuYW1lIjoiIn0.QzJ1vY-cvf3uHHadiE5IZLl40_kd-zgt1jQS6LOPdN77dtFa8gnSQe_3nNcvkJj-mzHGnbtINSd2q5nwBxU4GA"
 
 func TestCreateToken(t *testing.T) {

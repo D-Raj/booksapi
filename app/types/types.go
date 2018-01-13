@@ -19,3 +19,8 @@ type User struct {
 type JwtToken struct {
 	Token string `json:"token"`
 }
+
+// Exception is used to hold error messages in authentication
+type Exception struct {
+	Message string `json:"message"`
+}
