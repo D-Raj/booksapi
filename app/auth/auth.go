@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strings"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/dharnnie/booksapi/app/types"
@@ -39,28 +38,22 @@ func Authenticate(next http.HandlerFunc) http.HandlerFunc {
 		authorisationHeader := r.Header.Get("authorization")
 		// make sure authorisation header is not empty
 		if authorisationHeader != "" {
-			// split the token from authorisation header
-			// e.g of authorisation header - "authorisation tokenvalue" separated with white spaces
-			bearerToken := strings.Split(authorisationHeader, " ")
-			// bearerToken should now be an array of strings with 2 values
-			// confirm that
-			if len(bearerToken) == 2 {
-				token, err := jwt.Parse(bearerToken[1], func(token *jwt.Token) (interface{}, error) {
-					if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-						return nil, fmt.Errorf("There was an error")
-					}
-					return []byte("secret"), nil
-				})
-				if err != nil {
-					json.NewEncoder(w).Encode(types.Exception{Message: error.Error(err)})
-					return
+			// We only need to check that authorisation header is not empty
+			token, err := jwt.Parse(authorisationHeader, func(token *jwt.Token) (interface{}, error) {
+				if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+					return nil, fmt.Errorf("There was an error")
 				}
-				if token.Valid {
-					context.Set(r, "decoded", token.Claims)
-					next(w, r)
-				} else {
-					json.NewEncoder(w).Encode(types.Exception{Message: "Invalid authorization token"})
-				}
+				return []byte("secret"), nil
+			})
+			if err != nil {
+				json.NewEncoder(w).Encode(types.Exception{Message: error.Error(err)})
+				return
+			}
+			if token.Valid {
+				context.Set(r, "decoded", token.Claims)
+				next(w, r)
+			} else {
+				json.NewEncoder(w).Encode(types.Exception{Message: "Invalid authorization token"})
 			}
 		} else {
 			json.NewEncoder(w).Encode(types.Exception{Message: "An authorization header is required"})
